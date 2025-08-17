@@ -4,8 +4,8 @@ endif
 
 let b:did_ftplugin = 1
 
-setlocal commentstring={/*\ %s\ */}
-setlocal comments=s1:{/*,mb:*,ex:*/}
+setlocal commentstring=//\ %s
+setlocal comments=sO:*\ -,mO:*,exO:*/,s1:/*,mb:*,ex:*/,://
 
 setlocal autoindent
 setlocal indentexpr=HtmlIndent()
