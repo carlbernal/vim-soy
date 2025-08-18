@@ -15,8 +15,10 @@ syn region soyComment start=/\/\*/ end=/\*\//
 syn region soyDocComment start=/\/\*\*/ end=/\*\// contains=soyAnnotation
 
 " Doc comment annotations
-syn match soyAnnotation contained /@\(param\|inject\)?\?/ nextgroup=soyParamName skipwhite
-syn match soyAnnotation contained /@\(state\|attribute\|export\|deprecated\|fileoverview\|visibility\|requirecss\|modname\|element\|javaimpl\|jsimpl\)/
+syn match soyAnnotation contained /@\(param\|inject\)?\?/
+            \ nextgroup=soyParamName skipwhite
+syn match soyAnnotation contained 
+            \ /@\(state\|attribute\|export\|deprecated\|fileoverview\|visibility\|requirecss\|modname\|element\|javaimpl\|jsimpl\)/
 syn match soyParamName contained /\<[a-zA-Z_][a-zA-Z0-9_]*\>/
 
 " Keywords
@@ -35,10 +37,13 @@ syn keyword soyConstant null true false
 
 " Template names and identifiers
 syn match soyTemplateName contained /\.[a-zA-Z][a-zA-Z0-9._]*/
-syn match soyIdentifier /\$[a-zA-Z0-9._]\+\>/ containedin=htmlString,htmlTag,htmlEndTag,htmlValue
+syn match soyIdentifier /\$[a-zA-Z0-9._]\+\>/
+            \ containedin=htmlString,htmlTag,htmlEndTag,htmlValue
 
 " Variables in HTML content and attributes
-syn match soyVarInHTML /{[^}]*\$[a-zA-Z0-9._]\+[^}]*}/ contained containedin=htmlString,htmlTag,htmlEndTag,htmlValue contains=soyIdentifier,soyDelimiter
+syn match soyVarInHTML /{[^}]*\$[a-zA-Z0-9._]\+[^}]*}/ contained
+            \ containedin=htmlString,htmlTag,htmlEndTag,htmlValue
+            \ contains=soyIdentifier,soyDelimiter
 
 " Strings and Numbers
 syn region soyString start='"' skip='\\"' end='"'
@@ -59,12 +64,22 @@ syn keyword soyFunction map list range strContains strIndexOf strSub
 syn keyword soyFunction htmlToText isNonnull
 
 " Template blocks
-syn region soyTemplateBlock matchgroup=soyDelimiter start="{\s*template\s" end="}" contains=soyKeyword,soyTemplateName,soyString,soyIdentifier
-syn region soyTemplateBlock matchgroup=soyDelimiter start="{\s*deltemplate\s" end="}" contains=soyKeyword,soyTemplateName,soyString,soyIdentifier
+syn region soyTemplateBlock matchgroup=soyDelimiter
+            \ start="{\s*template\s" end="}"
+            \ contains=soyKeyword,soyTemplateName,soyString,soyIdentifier
+syn region soyTemplateBlock matchgroup=soyDelimiter
+            \ start="{\s*deltemplate\s" end="}"
+            \ contains=soyKeyword,soyTemplateName,soyString,soyIdentifier
 
 " Regular blocks
-syn cluster soyInside contains=soyKeyword,soySpecialChar,soyConstant,soyIdentifier,soyString,soyNumber,soyLogicalOp,soyMathOp,soyCompareOp,soyAssignOp,soyTernaryOp,soyFunction,soyTemplateName
-syn region soyBlock matchgroup=soyDelimiter start="{" end="}" contains=@soyInside containedin=htmlString,htmlTag,htmlEndTag,htmlValue
+syn cluster soyInside contains=soyKeyword,soySpecialChar,soyConstant
+syn cluster soyInside contains=soyIdentifier,soyString,soyNumber,soyLogicalOp
+syn cluster soyInside contains=soyMathOp,soyCompareOp,soyAssignOp,soyTernaryOp
+syn cluster soyInside contains=soyFunction,soyTemplateName
+syn region soyBlock matchgroup=soyDelimiter
+            \ start="{" end="}"
+            \ contains=@soyInside
+            \ containedin=htmlString,htmlTag,htmlEndTag,htmlValue
 
 " End tags
 syn match soyEndTag "{\s*/[a-zA-Z]\+\s*}"
