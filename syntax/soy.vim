@@ -17,7 +17,7 @@ syn region soyDocComment start=/\/\*\*/ end=/\*\// contains=soyAnnotation
 " Doc comment annotations
 syn match soyAnnotation contained /@\(param\|inject\)?\?/
             \ nextgroup=soyParamName skipwhite
-syn match soyAnnotation contained 
+syn match soyAnnotation contained
             \ /@\(state\|attribute\|export\|deprecated\|fileoverview\|visibility\|requirecss\|modname\|element\|javaimpl\|jsimpl\)/
 syn match soyParamName contained /\<[a-zA-Z_][a-zA-Z0-9_]*\>/
 
@@ -27,7 +27,11 @@ syn keyword soyKeyword param let if elseif else switch case default
 syn keyword soyKeyword for foreach ifempty literal msg fallbackmsg
 syn keyword soyKeyword select plural print css xid private autoescape
 syn keyword soyKeyword kind requirecss stricthtml state log export
-syn keyword soyKeyword variant experiments data
+syn keyword soyKeyword variant experiments data inject
+
+" Types
+syn keyword soyType any string int float number bool null
+syn keyword soyType html uri css js list map
 
 " Special char
 syn match soySpecialChar "{\(sp\|nil\|\\n\|\\r\|\\t\|lb\|rb\)}"
@@ -75,7 +79,7 @@ syn region soyTemplateBlock matchgroup=soyDelimiter
 syn cluster soyInside contains=soyKeyword,soySpecialChar,soyConstant
 syn cluster soyInside contains=soyIdentifier,soyString,soyNumber,soyLogicalOp
 syn cluster soyInside contains=soyMathOp,soyCompareOp,soyAssignOp,soyTernaryOp
-syn cluster soyInside contains=soyFunction,soyTemplateName
+syn cluster soyInside contains=soyFunction,soyTemplateName,soyType
 syn region soyBlock matchgroup=soyDelimiter
             \ start="{" end="}"
             \ contains=@soyInside
@@ -105,5 +109,6 @@ hi def link soyTernaryOp Operator
 hi def link soyFunction Function
 hi def link soyDelimiter Delimiter
 hi def link soyEndTag Delimiter
+hi def link soyType Type
 
 let b:current_syntax = "soy"
